@@ -21,7 +21,7 @@ const products = [
 const ProductList: React.FC = () => {
   return (
     <div className="bg-white py-10">
-      <h2 className="text-3xl font-bold text-center mb-8">Tin Dành Cho Bạn</h2>
+      <h2 className="text-3xl font-bold text-center mb-8">Recommend For You</h2>
       <div className="max-w-screen-lg mx-auto px-4"> {/* Đặt chiều rộng tối đa và căn giữa */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {products.map((product) => (
@@ -36,7 +36,7 @@ const ProductList: React.FC = () => {
                 </svg>
 
                   {product.location}
-                  
+
                 </p>
               </div>
             </div>
