@@ -1,7 +1,14 @@
-import React from 'react';
+import useSearchStore from 'src/shared/store/SearchStore';
+import React, { ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
+  const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
+
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -56,7 +63,8 @@ const Navbar: React.FC = () => {
               id="default-search" 
               className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" 
               placeholder="Search..." 
-              required 
+              onChange={handleSearch}
+               
             />
             <button 
               type="submit" 
