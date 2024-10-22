@@ -3,6 +3,7 @@ import axiosInstance from '../../api/axiosInstance';
 import { Product } from '../../shared/productsInterface';
 import useSearchStore from 'src/shared/store/SearchStore';
 import { debounce } from 'lodash';
+import { useNavigate } from 'react-router-dom';
 
 const ProductList: React.FC = () => {
   const searchQuery = useSearchStore((state) => state.searchQuery);
@@ -41,6 +42,11 @@ const ProductList: React.FC = () => {
   useEffect(() => {
     filterProductList(searchQuery);
   }, [searchQuery, filterProductList]);
+  const navigate = useNavigate();
+
+  const handleProductClick = (product: Product) => {
+    navigate(`/product-detail/${product.item_id}`);
+  };
 
   return (
     <div className="bg-white py-10">
@@ -48,8 +54,12 @@ const ProductList: React.FC = () => {
       <div className="max-w-screen-lg mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {filteredProducts.map((product) => (
-            <div key={product.item_id} className="border rounded-lg overflow-hidden shadow-lg">
-              <img src={product.image} alt={product.item_name} className="w-full h-32 object-cover" />
+            <div 
+              key={product.item_id} 
+              className="border rounded-lg overflow-hidden shadow-lg"
+              onClick={() => handleProductClick(product)}
+            >
+              <img src={product.image_Items} alt={product.item_name} className="w-full h-32 object-cover" />
               <div className="p-4">
                 <h3 className="font-semibold">{product.item_name}</h3>
                 <p className="text-gray-600">{product.seller_name}</p>

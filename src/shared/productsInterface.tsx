@@ -9,6 +9,6 @@ export interface Product {
     posted_date: string;
     item_status: string;
     seller_name: string;
-    image: string;
+    image_Items: string;
     address: string;
 }
