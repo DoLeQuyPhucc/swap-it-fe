@@ -9,6 +9,8 @@ const ProductList: React.FC = () => {
   const searchQuery = useSearchStore((state) => state.searchQuery);
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  
+  const userId = 1;
 
   // Fetch products once when the component mounts
   useEffect(() => {
@@ -30,11 +32,15 @@ const ProductList: React.FC = () => {
   // Debounce the search filter to avoid excessive filtering while typing
   const filterProductList = useCallback(
     debounce((query: string) => {
+      
+    if (!products) {
+      return
+    }
       if (!query) {
-        setFilteredProducts(products.filter(product => product.seller_id !== 1)); // Reset to filtered list excluding seller_id === 1
+        setFilteredProducts(products.filter(product => product.seller_id !== userId)); // Reset to filtered list excluding seller_id === 1
       } else {
         const productsFiltered = products.filter((product) =>
-          product.item_name.toLowerCase().includes(query.toLowerCase()) && product.seller_id !== 1 // Exclude seller_id === 1
+          product.item_name.toLowerCase().includes(query.toLowerCase()) && product.seller_id !== userId // Exclude seller_id === 1
         );
         setFilteredProducts(productsFiltered);
       }
@@ -51,6 +57,12 @@ const ProductList: React.FC = () => {
   const handleProductClick = (product: Product) => {
     navigate(`/product-detail/${product.item_id}`);
   };
+
+  if (!products) {
+    return (
+      <div className="text-center">Loading...</div>
+    )
+  }
 
   return (
     <div className="bg-white py-10">

@@ -39,7 +39,7 @@ const ProductExchange: React.FC = () => {
     const priceDiff = Math.abs(
       parseFloat(itemPrice) - parseFloat(exchangePrice)
     );
-    return priceDiff > 10;
+    return priceDiff > 20;
   };
 
   const handleRadioChange = (item: Product) => {
@@ -57,8 +57,8 @@ const ProductExchange: React.FC = () => {
     const data = {
       buyer_id: userId,
       seller_id: itemExchange?.seller_id,
-      item_buyer_id: itemExchange?.item_id,
-      item_seller_id: selectedItem?.item_id,
+      item_buyer_id: selectedItem?.item_id,
+      item_seller_id: itemExchange?.item_id,
       transaction_date: new Date().toISOString().split("T")[0],
       transaction_status: "Pending",
     };
@@ -142,7 +142,7 @@ const ProductExchange: React.FC = () => {
             </thead>
             <tbody>
               {itemsBySellerId.map((item) => {
-                const disabled = isItemDisabled(item.price, itemExchange.price);
+                const disabled = isItemDisabled(item.price, itemExchange.price) || item.item_status === "Sold";
                 return (
                   <tr
                     key={item.item_id}
