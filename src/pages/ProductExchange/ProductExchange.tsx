@@ -60,7 +60,7 @@ const ProductExchange: React.FC = () => {
       item_buyer_id: itemExchange?.item_id,
       item_seller_id: selectedItem?.item_id,
       transaction_date: new Date().toISOString().split("T")[0],
-      transaction_status: "Completed",
+      transaction_status: "Pending",
     };
 
     axiosInstance
