@@ -8,7 +8,8 @@ export interface Product {
     quantity: number;
     posted_date: string;
     item_status: string;
-    seller_name: string;
+    user_name: string;
     image_Items: string;
     address: string;
+    image_user: string;
 }
