@@ -5,11 +5,11 @@ import useSearchStore from "src/shared/store/SearchStore";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
 
-const ProductList: React.FC = () => {
+const MyProduct: React.FC = () => {
   const searchQuery = useSearchStore((state) => state.searchQuery);
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  
+
   const userId = 1;
 
   // Fetch products once when the component mounts
@@ -19,10 +19,14 @@ const ProductList: React.FC = () => {
 
   const fetchData = () => {
     axiosInstance
-      .get("/items/")
+      .get(`/items/user/${userId}`)
       .then((response) => {
         setProducts(response.data.data);
-        setFilteredProducts(response.data.data.filter((product: Product) => product.seller_id !== userId)); // Filter initially
+        setFilteredProducts(
+          response.data.data.filter(
+            (product: Product) => product.seller_id == userId
+          )
+        ); // Filter initially
       })
       .catch((error) => {
         console.error(error);
@@ -32,15 +36,18 @@ const ProductList: React.FC = () => {
   // Debounce the search filter to avoid excessive filtering while typing
   const filterProductList = useCallback(
     debounce((query: string) => {
-      
-    if (!products) {
-      return
-    }
+      if (!products) {
+        return;
+      }
       if (!query) {
-        setFilteredProducts(products.filter(product => product.seller_id !== userId)); // Reset to filtered list excluding seller_id === 1
+        setFilteredProducts(
+          products.filter((product) => product.seller_id === userId)
+        ); // Reset to filtered list excluding seller_id === 1
       } else {
-        const productsFiltered = products.filter((product) =>
-          product.item_name.toLowerCase().includes(query.toLowerCase()) && product.seller_id !== userId // Exclude seller_id === 1
+        const productsFiltered = products.filter(
+          (product) =>
+            product.item_name.toLowerCase().includes(query.toLowerCase()) &&
+            product.seller_id !== userId // Exclude seller_id === 1
         );
         setFilteredProducts(productsFiltered);
       }
@@ -59,29 +66,50 @@ const ProductList: React.FC = () => {
   };
 
   if (!products) {
-    return (
-      <div className="text-center">Loading...</div>
-    )
+    return <div className="text-center">Loading...</div>;
   }
 
   if (filteredProducts.length === 0) {
     return (
-      <div className="py-16" style={{display: 'flex', flexDirection:'column', alignContent: 'center', justifyContent: 'center'}}>
-        <div className="text-3xl font-bold text-center mb-8">No products found</div>
-        <img style={{width: '400px', margin: '0 auto'}} src="https://mitienda.ucol.mx/assets/img/productos/product-not-found.png" alt="product" />
+      <div
+        className="py-16"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignContent: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div className="text-3xl font-bold text-center mb-8">
+          You do not have any product
+        </div>
+        <img
+          style={{ width: "400px", margin: "0 auto" }}
+          src="https://mitienda.ucol.mx/assets/img/productos/product-not-found.png"
+          alt="product"
+        />
       </div>
-    )
+    );
   }
 
   return (
-    <div className="bg-white py-10">
-      <h2 className="text-3xl font-bold text-center mb-8">Recommend For You</h2>
+    <div className="max-w-screen-lg mx-auto px-4 my-12">
+      <div className="flex justify-between px-4 mb-8">
+        <h2 className="text-3xl font-bold text-center">My Products</h2>
+
+        <a
+          className="bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-700 rounded-lg"
+          href="/products/create"
+        >
+          Add new product
+        </a>
+      </div>
       <div className="max-w-screen-lg mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {filteredProducts
             .sort(
               (a, b) =>
-                (a.item_status === "Sold" ? 1 : 0) - 
+                (a.item_status === "Sold" ? 1 : 0) -
                 (b.item_status === "Sold" ? 1 : 0)
             )
             .map((product) => {
@@ -89,7 +117,9 @@ const ProductList: React.FC = () => {
               return (
                 <div
                   key={product.item_id}
-                  className={`border rounded-lg overflow-hidden shadow-lg ${isSold ? "opacity-50 pointer-events-none" : ""}`} 
+                  className={`border rounded-lg overflow-hidden shadow-lg ${
+                    isSold ? "opacity-50 pointer-events-none" : ""
+                  }`}
                   onClick={() => !isSold && handleProductClick(product)} // Disable click if sold
                 >
                   <img
@@ -133,4 +163,4 @@ const ProductList: React.FC = () => {
   );
 };
 
-export default ProductList;
+export default MyProduct;

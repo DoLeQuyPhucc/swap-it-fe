@@ -4,7 +4,7 @@ export interface Product {
     item_name: string;
     description: string;
     price: string;
-    category: string;
+    category_id: number;
     quantity: number;
     posted_date: string;
     item_status: string;

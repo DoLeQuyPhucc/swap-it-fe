@@ -79,7 +79,7 @@ const ProductDetail: React.FC = () => {
               />
               <p className="text-gray-700 font-semibold">{product.user_name}</p>
             </div>
-            <p className="text-gray-700 mb-2">Category: {product.category}</p>
+            <p className="text-gray-700 mb-2">Category: {product.category_id}</p>
             <p className="text-gray-700 mb-2">Status: {product.item_status}</p>
             <p className="mt-2 text-gray-800 text-sm flex items-center">
             <svg
