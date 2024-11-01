@@ -10,7 +10,7 @@ const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   
-  const userId = 1;
+  const userId = 2;
 
   // Fetch products once when the component mounts
   useEffect(() => {

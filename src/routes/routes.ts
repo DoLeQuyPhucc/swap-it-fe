@@ -5,6 +5,8 @@ import ProductExchange from "../pages/ProductExchange/ProductExchange";
 import Transaction from "../pages/Transaction/Transaction";
 import CreateProduct from "../pages/Product/CreateProduct";
 import MyProduct from "../pages/Product/MyProduct";
+import AboutPage from "../pages/About/About";
+import ContactPage from "../pages/Contact/Contact";
 
 export const publicRoutes = [
   {
@@ -17,7 +19,11 @@ export const publicRoutes = [
   },
   {
     path: "/contact",
-    component: Contact,
+    component: ContactPage,
+  },
+  {
+    path: "/about",
+    component: AboutPage,
   },
   {
     path: "/product-detail/:productId",

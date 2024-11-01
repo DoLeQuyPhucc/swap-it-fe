@@ -16,7 +16,7 @@ const NewItemForm = () => {
   const [imageURL, setImageURL] = useState(DefaultImage);
   const fileUploadRef = useRef<HTMLInputElement>(null);
 
-  const userId = 1;
+  const userId = 2;
 
   const handleInputChange = (
     event: React.ChangeEvent<

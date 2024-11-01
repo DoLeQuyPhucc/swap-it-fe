@@ -13,7 +13,7 @@ const ProductExchange: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8); // Show 5 items per page
   const navigate = useNavigate();
-  const userId = 1;
+  const userId = 2;
 
   useEffect(() => {
     const fetchData = () => {

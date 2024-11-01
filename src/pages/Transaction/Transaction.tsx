@@ -21,7 +21,7 @@ const Transactions = () => {
   );
   const [transactionUpdated, setTransactionUpdated] = useState(false);
 
-  const userId = 1;
+  const userId = 2;
 
   // Gọi API để lấy danh sách giao dịch của seller có ID 1
   useEffect(() => {
