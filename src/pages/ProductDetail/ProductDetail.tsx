@@ -52,8 +52,15 @@ const ProductDetail: React.FC = () => {
   }
 
   if (!product) {
-    return <div>Loading...</div>;
+    return (
+      <div  className="py-10 px-6 flex items-center justify-center text-center">
+        <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+  </svg>
+  Processing...
+      </div>
+    )
   }
+
 
   return (
     <div className="bg-gray-100 py-10 px-6">

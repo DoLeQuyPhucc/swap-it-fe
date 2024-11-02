@@ -54,6 +54,7 @@ const Navbar: React.FC = () => {
 
   const logout = () => {
     localStorage.removeItem("userId");  
+    localStorage.removeItem("userRole");
     navigate("/auth");
   }
 

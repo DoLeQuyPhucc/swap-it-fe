@@ -22,16 +22,16 @@ export const publicRoutes = [
     path: "/about",
     component: AboutPage,
   },
+  {
+    path: "/product-detail/:productId",
+    component: ProductDetail,
+  },
 ];
 
 export const privateRoutes = [
   {
     path: "/transactions",
     component: Transaction,
-  },
-  {
-    path: "/product-detail/:productId",
-    component: ProductDetail,
   },
   {
     path: "/request-exchange/:productId",

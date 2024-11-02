@@ -10,7 +10,9 @@ const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   
-  const userId = 2;
+  const userId = Number(localStorage.getItem('userId'));
+
+  console.log(userId)
 
   // Fetch products once when the component mounts
   useEffect(() => {
@@ -60,7 +62,7 @@ const ProductList: React.FC = () => {
 
   if (!products) {
     return (
-      <div>
+      <div  className="py-10 px-6 flex items-center justify-center text-center">
         <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
   </svg>
   Processing...
