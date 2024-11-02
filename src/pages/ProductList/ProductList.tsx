@@ -103,7 +103,8 @@ const ProductList: React.FC = () => {
                     className="w-full h-32 object-cover"
                   />
                   <div className="p-4">
-                    <h3 className="font-semibold">{product.item_name}</h3>
+                    <h3 className="font-semibold truncate">{product.item_name}</h3>
+                    <p className="text-gray-600">${product.price}</p>
                     <div className="flex items-center">
                       <img
                         src={product.image_user}
@@ -112,7 +113,6 @@ const ProductList: React.FC = () => {
                       />
                       <p className="text-gray-600">{product.user_name}</p>
                     </div>
-                    <p className="text-gray-600">${product.price}</p>
                     <p className="text-gray-500 text-sm flex items-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

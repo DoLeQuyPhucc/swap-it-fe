@@ -154,7 +154,7 @@ const Navbar: React.FC = () => {
               <Link
                 to="/home"
                 onClick={handleLinkClick}
-                className="nav-link block py-2 pl-3 pr-4 text-gray-900 rounded md:bg-transparent md:text-gray-700 md:p-0 dark:text-white"
+                className="active nav-link block py-2 pl-3 pr-4 text-gray-900 rounded md:bg-transparent md:text-gray-700 md:p-0 dark:text-white"
               >
                 Trang chủ
               </Link>

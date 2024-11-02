@@ -49,9 +49,16 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({
                 className="w-full h-32 object-cover"
               />
               <div className="p-4">
-                <h3 className="font-semibold">{product.item_name}</h3>
-                <p className="text-gray-600">{product.user_name}</p>
+                <h3 className="font-semibold truncate">{product.item_name}</h3>
                 <p className="text-gray-600">${product.price}</p>
+                <div className="flex items-center">
+                  <img
+                    src={product.image_user}
+                    alt={`${product.user_name}'s profile`}
+                    className="w-5 h-5 rounded-full mr-2"
+                  />
+                  <p className="text-gray-600">{product.user_name}</p>
+                </div>
                 <p className="text-gray-500 text-sm flex items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
