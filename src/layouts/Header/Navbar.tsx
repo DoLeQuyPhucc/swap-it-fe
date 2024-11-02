@@ -2,6 +2,7 @@ import useSearchStore from "src/shared/store/SearchStore";
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
+import Logo from "../../assets/img/logo.png";
 
 const Navbar: React.FC = () => {
   const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
@@ -64,15 +65,18 @@ const Navbar: React.FC = () => {
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link
           to="/home"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
+          className="flex items-center space-x-3 rtl:space-x-reverse rounded-lg"
         >
           <img
-            src="https://files.startupranking.com/startup/thumb/20590_0d069efaf0db1a3d0c7441e6e069683b26f27cdf_swap-it_l.png"
+            src={Logo}
             className="h-8"
             alt="Flowbite Logo"
           />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Swap It
+          <span 
+            className="self-center text-2xl font-bold whitespace-nowrap dark:text-white text-amber-700"
+            style={{transform: 'translate(0, -8%)', letterSpacing: '1px'}}
+          >
+            Swap it
           </span>
         </Link>
 
