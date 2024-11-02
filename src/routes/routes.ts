@@ -7,6 +7,7 @@ import CreateProduct from "../pages/Product/CreateProduct";
 import MyProduct from "../pages/Product/MyProduct";
 import AboutPage from "../pages/About/About";
 import ContactPage from "../pages/Contact/Contact";
+import PackagesScreen from "../pages/Package/PackageScreen";
 
 export const publicRoutes = [
   {
@@ -34,11 +35,15 @@ export const publicRoutes = [
     component: ProductExchange,
   },
   {
-    path: "products/myProduct",
+    path: "/products/myProduct",
     component: MyProduct,
   },
   {
-    path: "products/create",
+    path: "/products/create",
     component: CreateProduct,
+  },
+  {
+    path: "/package",
+    component: PackagesScreen,
   }
 ];

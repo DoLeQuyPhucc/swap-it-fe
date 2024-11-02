@@ -60,14 +60,18 @@ const ProductList: React.FC = () => {
 
   if (!products) {
     return (
-      <div className="text-center">Loading...</div>
+      <div>
+        <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+  </svg>
+  Processing...
+      </div>
     )
   }
 
   if (filteredProducts.length === 0) {
     return (
       <div className="py-16" style={{display: 'flex', flexDirection:'column', alignContent: 'center', justifyContent: 'center'}}>
-        <div className="text-3xl font-bold text-center mb-8">No products found</div>
+        <div className="text-3xl font-bold text-center mb-8">Không tìm thấy sản phẩm phù hợp</div>
         <img style={{width: '400px', margin: '0 auto'}} src="https://mitienda.ucol.mx/assets/img/productos/product-not-found.png" alt="product" />
       </div>
     )
@@ -75,7 +79,6 @@ const ProductList: React.FC = () => {
 
   return (
     <div className="bg-white py-10">
-      <h2 className="text-3xl font-bold text-center mb-8">Recommend For You</h2>
       <div className="max-w-screen-lg mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {filteredProducts

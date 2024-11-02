@@ -1,14 +1,25 @@
 import useSearchStore from "src/shared/store/SearchStore";
-import React, { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { ChangeEvent, KeyboardEvent, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar: React.FC = () => {
   const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
+  };
+
+  const handleSearchKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      if (location.pathname !== '/home') {
+        navigate('/home');
+      }
+    }
   };
 
   const handleDropdownToggle = () => {
@@ -58,13 +69,15 @@ const Navbar: React.FC = () => {
           </span>
         </Link>
 
-        <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse" style={{width: '30%'}}>
           {/* Search bar */}
           <input
             type="text"
             onChange={handleSearch}
-            placeholder="Search..."
+            onKeyDown={handleSearchKeyPress}
+            placeholder="Tìm kiếm sản phẩm..."
             className="p-2 border rounded-lg mr-4"
+            style={{width: '100%'}}
           />
 
           {/* Avatar with Dropdown */}
@@ -87,21 +100,39 @@ const Navbar: React.FC = () => {
                 onMouseLeave={() => setDropdownOpen(false)}
               >
                 <Link
-                  to="/profile"
+                  to="#"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                 >
-                  Profile
+                  Thông tin cá nhân
                 </Link>
                 <Link
-                  to="/settings"
+                  to="/products/myProduct"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                 >
-                  Settings
+                  Quản lí sản phẩm của tôi
+                </Link>
+                <Link
+                  to="/transactions"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                >
+                  Quản lí giao dịch của tôi
+                </Link>
+                <Link
+                  to="/transactions"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                >
+                  Quản lí gói đăng bài
+                </Link>
+                <Link
+                  to="#"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                >
+                  Cài đặt
                 </Link>
                 <button
                   className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                 >
-                  Logout
+                  Đăng xuất
                 </button>
               </div>
             )}
@@ -117,7 +148,7 @@ const Navbar: React.FC = () => {
                 onClick={handleLinkClick}
                 className="nav-link block py-2 pl-3 pr-4 text-gray-900 rounded md:bg-transparent md:text-gray-700 md:p-0 dark:text-white"
               >
-                Home
+                Trang chủ
               </Link>
             </li>
             <li>
@@ -126,7 +157,7 @@ const Navbar: React.FC = () => {
                 onClick={handleLinkClick}
                 className="nav-link block py-2 pl-3 pr-4 text-gray-900 rounded md:bg-transparent md:text-gray-700 md:p-0 dark:text-white"
               >
-                About
+                Về chúng tôi
               </Link>
             </li>
             <li>
@@ -135,7 +166,7 @@ const Navbar: React.FC = () => {
                 onClick={handleLinkClick}
                 className="nav-link block py-2 pl-3 pr-4 text-gray-900 rounded md:bg-transparent md:text-gray-700 md:p-0 dark:text-white"
               >
-                Contact
+                Liên hệ
               </Link>
             </li>
           </ul>

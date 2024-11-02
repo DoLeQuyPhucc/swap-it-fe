@@ -96,82 +96,82 @@ const NewItemForm = () => {
     <div 
     className="flex flex-col space-y-4 p-8 w-1/2 mx-auto">
       
-      <h2 className="text-3xl font-bold text-center">Add new Product</h2>
+      <h2 className="text-3xl font-bold text-center">Thêm sản phẩm mới</h2>
     <form
       onSubmit={handleSubmit}
     >
       {/* Các trường khác */}
       <label>
-        Item Name:
+        Tên sản phẩm:
         <input
           type="text"
           name="item_name"
           value={formData.item_name}
           onChange={handleInputChange}
           required
-          className="w-full p-2 mb-4 border border-gray-300 rounded"
+          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
         />
       </label>
 
       <label>
-        Description:
+        Mô tả:
         <textarea
           name="description"
           value={formData.description}
           onChange={handleInputChange}
-          className="w-full p-2 mb-4 border border-gray-300 rounded"
+          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
           rows={4}
         />
       </label>
 
       <label>
-        Price:
+        Giá:
         <input
           type="number"
           name="price"
           value={formData.price}
           onChange={handleInputChange}
           required
-          className="w-full p-2 mb-4 border border-gray-300 rounded"
+          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
         />
       </label>
 
       <label>
-        Category:
+        Phân loại:
         <input
           type="text"
           name="category"
           value={formData.category}
           onChange={handleInputChange}
-          className="w-full p-2 mb-4 border border-gray-300 rounded"
+          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
         />
       </label>
 
       <label>
-        Quantity:
+        Số lượng:
         <input
           type="number"
           name="quantity"
           value={formData.quantity}
           onChange={handleInputChange}
-          className="w-full p-2 mb-4 border border-gray-300 rounded"
+          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
         />
       </label>
 
       <label>
-        Address:
+        Địa chỉ:
         <input
           type="text"
           name="address"
           value={formData.address}
           onChange={handleInputChange}
           required
-          className="w-full p-2 mb-4 border border-gray-300 rounded"
+          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
         />
       </label>
       <label>
-        Image:
-        <div className="flex items-center justify-center" style={{border: '1px solid #000'}}>
+        Hình ảnh:
+        <div className="mt-2 flex items-center justify-center rounded-lg" style={{border: '1px solid #ccc'}}>
           <img
             src={imageURL}
             alt="Avatar"
@@ -191,19 +191,18 @@ const NewItemForm = () => {
           name="item_status"
           value={formData.item_status}
           onChange={handleInputChange}
-          className="w-full p-2 mb-4 border border-gray-300 rounded"
+          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
         >
           <option value="Available">Available</option>
           <option value="Sold">Sold</option>
-          <option value="Out of Stock">Out of Stock</option>
         </select>
       </label>
 
       <button
         type="submit"
-        className="w-full p-2 mb-4 bg-amber-500 hover:bg-amber-700 text-white rounded"
+        className="w-full p-2 mt-2 mb-4 bg-amber-500 hover:bg-amber-700 text-white rounded-lg"
       >
-        Add Product
+       Thêm sản phẩm
       </button>
     </form>
 

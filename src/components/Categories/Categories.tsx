@@ -12,7 +12,6 @@ const categories = [
 const Categories: React.FC = () => {
   return (
     <div className="bg-white py-10">
-      <h2 className="text-3xl font-bold text-center mb-8">Categories</h2>
       <div className="grid grid-cols-6 gap-2 px-4 justify-items-center">
         {categories.map((category, index) => (
           <div

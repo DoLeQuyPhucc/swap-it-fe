@@ -10,8 +10,8 @@ const images = [
 
 const Banner: React.FC = () => {
   return (
-    <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-600 p-12" style={{marginTop: '74px'}}>
-      <div className="max-w-5xl mx-auto flex flex-col items-center rounded-lg shadow-lg overflow-hidden relative z-0">
+    <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-600 p-12" style={{height: 'calc(100vh - 74px)'}}>
+      <div className="max-w-5xl mx-auto my-auto flex flex-col items-center rounded-lg shadow-lg overflow-hidden relative z-0">
         <Carousel
           showArrows={true}
           showThumbs={false}
@@ -31,10 +31,10 @@ const Banner: React.FC = () => {
         </Carousel>
         <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-center items-center text-center p-4">
           <h1 className="text-white text-3xl md:text-5xl font-extrabold mb-4 drop-shadow-lg">
-            Discover Your Next Favorite Book
+          Kết nối đam mê, trao đổi tri thức
           </h1>
-          <p className="text-white text-sm md:text-lg mb-6 drop-shadow-md">
-            Curated selection of books, gadgets, and must-have items. Let's explore the best deals!
+          <p className="text-white text-md md:text-lg mb-6 drop-shadow-md">
+          Trao đổi dễ dàng – Bảo vệ môi trường, tiết kiệm chi phí.
           </p>
           {/* <button className="bg-yellow-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-white hover:text-yellow-500 transition duration-300 shadow-lg transform hover:scale-105">
             Shop Now

@@ -89,7 +89,7 @@ const Transactions = () => {
   return (
     <div className="container mx-auto px-32">
       <div className="p-4 my-12">
-        <h2 className="text-2xl font-bold mb-4">My transactions</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">Giao dịch của tôi</h2>
         <table
           className="min-w-full border-collapse border border-gray-200"
           style={{ tableLayout: "fixed", width: "100%" }} // Ensure equal column widths
@@ -97,12 +97,12 @@ const Transactions = () => {
           <thead>
             <tr className="bg-gray-100">
               <th colSpan={2} className="border border-gray-200 px-4 py-2">
-                My Item
+                Sản phẩm của tôi
               </th>
               <th colSpan={2} className="border border-gray-200 px-4 py-2">
-                Seller's Item
+                Sản phẩm của người bán
               </th>
-              <th className="border border-gray-200 px-4 py-2">Status</th>
+              <th className="border border-gray-200 px-4 py-2">Trạng thái giao dịch</th>
             </tr>
           </thead>
           <tbody>
@@ -166,7 +166,7 @@ const Transactions = () => {
       </div>
 
       <div className="p-4 mb-12">
-        <h2 className="text-2xl font-bold mb-4">Request for transactions</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">Các giao dịch đang chờ</h2>
         <table
           className="min-w-full border-collapse border border-gray-200"
           style={{ tableLayout: "fixed", width: "100%" }} // Ensure equal column widths
@@ -174,13 +174,13 @@ const Transactions = () => {
           <thead>
             <tr className="bg-gray-100">
               <th colSpan={2} className="border border-gray-200 px-4 py-2">
-                My Item
+                Sản phẩm của tôi
               </th>
               <th colSpan={2} className="border border-gray-200 px-4 py-2">
-                Buyer's Item
+                Sản phẩm của người mua
               </th>
-              <th className="border border-gray-200 px-4 py-2">Status</th>
-              <th className="border border-gray-200 px-4 py-2">Action</th>
+              <th className="border border-gray-200 px-4 py-2">Trạng thái giao dịch</th>
+              <th className="border border-gray-200 px-4 py-2"></th>
             </tr>
           </thead>
           <tbody>

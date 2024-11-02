@@ -12,7 +12,6 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Navigate to="/home" replace />} />
             
-            
             {/* public routes */}
             <Route element={<UserLayout />}>
               {publicRoutes.map((item, index) => {

@@ -6,7 +6,7 @@ function UserLayout() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="flex-1">
+      <div className="flex-1" style={{marginTop: '74px'}}>
         <Outlet />
       </div>
       <Footer />
