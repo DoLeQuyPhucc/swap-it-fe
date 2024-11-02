@@ -1,4 +1,5 @@
 // src/pages/PackagesScreen.js
+import { Spinner } from '../../components/SpinnerLoading/SpinnerLoading';
 import PackageCard from '../../components/PackageCard/PackageCard';
 import React from 'react';
 
@@ -23,6 +24,14 @@ const PackagesScreen = () => {
       buttonText: 'Đăng ký',
     },
   ];
+
+  if(packages.length === 0) {
+      return (
+        <div  className="py-10 px-6 flex items-center justify-center text-center">
+          <Spinner size="lg" color="primary" />
+        </div>
+      )
+  }
 
   return (
     <div className="flex flex-col items-center py-10 bg-gray-100" style={{height: 'calc(100vh - 130px)'}}>

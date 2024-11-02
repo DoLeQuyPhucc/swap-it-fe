@@ -4,6 +4,7 @@ import { Product } from '../../shared/productsInterface';
 import axiosInstance from '../../api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import ProductCarousel from '../../components/ProductCarousel/ProductCarousel';
+import { Spinner } from '../../components/SpinnerLoading/SpinnerLoading';
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -54,9 +55,7 @@ const ProductDetail: React.FC = () => {
   if (!product) {
     return (
       <div  className="py-10 px-6 flex items-center justify-center text-center">
-        <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
-  </svg>
-  Processing...
+        <Spinner size="lg" color="primary" />
       </div>
     )
   }

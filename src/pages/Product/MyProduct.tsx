@@ -4,6 +4,7 @@ import { Product } from "../../shared/productsInterface";
 import useSearchStore from "src/shared/store/SearchStore";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "../../components/SpinnerLoading/SpinnerLoading";
 
 const MyProduct: React.FC = () => {
   const searchQuery = useSearchStore((state) => state.searchQuery);
@@ -66,7 +67,11 @@ const MyProduct: React.FC = () => {
   };
 
   if (!products) {
-    return <div className="text-center">Loading...</div>;
+    return (
+      <div  className="py-10 px-6 flex items-center justify-center text-center">
+        <Spinner size="lg" color="primary" />
+      </div>
+    )
   }
 
   if (filteredProducts.length === 0) {

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Product } from "../../shared/productsInterface";
 import axiosInstance from "../../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "../../components/SpinnerLoading/SpinnerLoading";
 
 const ProductExchange: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -11,6 +12,7 @@ const ProductExchange: React.FC = () => {
   const [itemExchange, setItemExchange] = useState<Product>();
   const [selectedItem, setSelectedItem] = useState<Product | null>(null); // Only store 1 product
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const [itemsPerPage] = useState(8); // Show 5 items per page
   const navigate = useNavigate();
   const userId = Number(localStorage.getItem('userId'));
@@ -31,8 +33,13 @@ const ProductExchange: React.FC = () => {
   }, [productId]);
 
   if (!itemExchange) {
-    return <div>Loading...</div>;
+    return (
+      <div  className="py-10 px-6 flex items-center justify-center text-center">
+        <Spinner size="lg" color="primary" />
+      </div>
+    )
   }
+
 
   const isItemDisabled = (itemPrice: string, exchangePrice: string) => {
     const priceDiff = Math.abs(parseFloat(itemPrice) - parseFloat(exchangePrice));
