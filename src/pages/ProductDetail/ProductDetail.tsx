@@ -79,8 +79,8 @@ const ProductDetail: React.FC = () => {
               />
               <p className="text-gray-700 font-semibold">{product.user_name}</p>
             </div>
-            <p className="text-gray-700 mb-2">Category: {product.category_id}</p>
-            <p className="text-gray-700 mb-2">Status: {product.item_status}</p>
+            <p className="text-gray-700 mb-2">Loại: {product.category_id}</p>
+            <p className="text-gray-700 mb-2">Trạng thái: {product.item_status}</p>
             <p className="mt-2 text-gray-800 text-sm flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +100,7 @@ const ProductDetail: React.FC = () => {
             <div className="text-4xl text-red-500 font-bold mb-6">${product.price}</div>
 
             <div className="flex items-center mb-6">
-              <span className="text-gray-700 mr-4">Quantity:</span>
+              <span className="text-gray-700 mr-4">Số lượng:</span>
               <input
                 type="number"
                 className="border w-20 p-2 rounded-md"
@@ -112,17 +112,17 @@ const ProductDetail: React.FC = () => {
 
             <div className="flex gap-4">
               <button className="bg-orange-500 hover:bg-orange-600 text-white py-3 px-8 rounded-md font-semibold">
-                Buy Now
+                Liên hệ
               </button>
               <button className="bg-yellow-400 hover:bg-yellow-500 text-white py-3 px-8 rounded-md font-semibold" onClick={handleRequest}>
-                Request for exchange
+                Yêu cầu trao đổi
               </button>
             </div>
           </div>
         </div>
 
         <div className="mt-10">
-          <h2 className="text-2xl font-semibold mb-4">Product Description</h2>
+          <h2 className="text-2xl font-semibold mb-4">Mô tả:</h2>
           <p className="text-gray-600">{product.description}</p>
         </div>
       </div>

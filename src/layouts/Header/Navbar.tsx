@@ -52,6 +52,12 @@ const Navbar: React.FC = () => {
     (event.target as HTMLElement).classList.add("active");
   };
 
+  const logout = () => {
+    localStorage.removeItem("userId");  
+    navigate("/auth");
+  }
+
+
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 right-0 left-0 z-10 shadow-md">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -76,7 +82,7 @@ const Navbar: React.FC = () => {
             onChange={handleSearch}
             onKeyDown={handleSearchKeyPress}
             placeholder="Tìm kiếm sản phẩm..."
-            className="p-2 border rounded-lg mr-4"
+            className="p-2 border rounded-lg mr-4 focus:ring-2 focus:border-amber-300 focus:ring-amber-500 focus:outline-none dark:bg-gray-800"
             style={{width: '100%'}}
           />
 
@@ -100,7 +106,7 @@ const Navbar: React.FC = () => {
                 onMouseLeave={() => setDropdownOpen(false)}
               >
                 <Link
-                  to="#"
+                  to="/"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                 >
                   Thông tin cá nhân
@@ -118,19 +124,20 @@ const Navbar: React.FC = () => {
                   Quản lí giao dịch của tôi
                 </Link>
                 <Link
-                  to="/transactions"
+                  to="/package"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                 >
                   Quản lí gói đăng bài
                 </Link>
                 <Link
-                  to="#"
+                  to="/"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                 >
                   Cài đặt
                 </Link>
                 <button
                   className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                  onClick={logout}
                 >
                   Đăng xuất
                 </button>

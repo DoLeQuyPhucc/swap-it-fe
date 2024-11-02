@@ -19,9 +19,9 @@ const ContactPage = () => {
       linkedin: 'https://linkedin.com/company/swapit'
     },
     socialIcons: {
-      facebook: <Facebook className="mr-3 text-blue-500" />,
-      instagram: <Instagram className="mr-3 text-blue-500" />,
-      linkedin: <Linkedin className="mr-3 text-blue-500" />
+      facebook: <Facebook className="mr-3 text-amber-500" />,
+      instagram: <Instagram className="mr-3 text-amber-500" />,
+      linkedin: <Linkedin className="mr-3 text-amber-500" />
     } as Record<string, JSX.Element>
   };
 
@@ -176,7 +176,7 @@ const ContactPage = () => {
 
             {/* Address */}
             <div className="flex items-center space-x-4">
-              <MapPin className="text-red-500 w-10 h-10" />
+              <MapPin className="text-red-500 w-8 h-8" />
               <div>
                 <h3 className="font-semibold text-gray-700">Địa Chỉ</h3>
                 <p className="text-gray-600">{contactInfo.address}</p>

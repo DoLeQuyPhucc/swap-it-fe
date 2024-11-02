@@ -10,7 +10,7 @@ const images = [
 
 const Banner: React.FC = () => {
   return (
-    <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-600 p-12" style={{height: 'calc(100vh - 74px)'}}>
+    <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-600 p-12">
       <div className="max-w-5xl mx-auto my-auto flex flex-col items-center rounded-lg shadow-lg overflow-hidden relative z-0">
         <Carousel
           showArrows={true}

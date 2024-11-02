@@ -24,7 +24,6 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({
 
   return (
     <div className="">
-      <h2 className="text-3xl font-bold text-center mt-8 mb-4">Recommend For You</h2>
       <div className="flex items-center p-8 w-3/4 mx-auto">
         <button
           onClick={() => scroll("left")}

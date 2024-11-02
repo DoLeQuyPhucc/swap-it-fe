@@ -12,13 +12,13 @@ const PackagesScreen = () => {
     },
     {
       title: 'Gói Tiêu Chuẩn',
-      price: '50,000 VND',
+      price: '49,000 VND',
       features: ['Đăng tối đa 10 bài', 'Hiển thị trong 30 ngày', 'Ưu tiên trung bình'],
       buttonText: 'Đăng ký',
     },
     {
       title: 'Gói Cao Cấp',
-      price: '100,000 VND',
+      price: '99,000 VND',
       features: ['Đăng không giới hạn', 'Hiển thị trong 60 ngày', 'Ưu tiên cao nhất'],
       buttonText: 'Đăng ký',
     },

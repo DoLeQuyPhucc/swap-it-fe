@@ -15,16 +15,19 @@ export const publicRoutes = [
     component: Home,
   },
   {
-    path: "/transactions",
-    component: Transaction,
-  },
-  {
     path: "/contact",
     component: ContactPage,
   },
   {
     path: "/about",
     component: AboutPage,
+  },
+];
+
+export const privateRoutes = [
+  {
+    path: "/transactions",
+    component: Transaction,
   },
   {
     path: "/product-detail/:productId",
@@ -47,3 +50,4 @@ export const publicRoutes = [
     component: PackagesScreen,
   }
 ];
+

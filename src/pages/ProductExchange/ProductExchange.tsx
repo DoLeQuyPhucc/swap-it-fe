@@ -83,10 +83,10 @@ const ProductExchange: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-between h-screen px-10">
+    <div className="flex justify-between h-screen px-32">
       {/* Left side - Item to Exchange */}
       <div className="w-1/2 p-5">
-        <h2 className="text-xl font-semibold mb-4">Product for Exchange</h2>
+        <h2 className="text-xl font-semibold mb-4">Sản phẩm muốn trao đổi:</h2>
         <div className="border p-5 rounded-lg shadow-md">
           <img
             src={itemExchange?.image_Items}
@@ -95,7 +95,7 @@ const ProductExchange: React.FC = () => {
           />
           <h3 className="text-lg font-bold">{itemExchange?.item_name}</h3>
           <p>{itemExchange?.description}</p>
-          <p className="mt-2 text-gray-600">Price: ${itemExchange?.price}</p>
+          <p className="mt-2 text-gray-600">Giá: {itemExchange?.price} VND</p>
         </div>
       </div>
 
@@ -106,24 +106,22 @@ const ProductExchange: React.FC = () => {
           onClick={handleRequestExchange}
           disabled={!selectedItem}
         >
-          Request Exchange
+          Yêu cầu trao đổi
         </button>
       </div>
 
       {/* Right side - List of Items in Table */}
       <div className="w-1/2 p-5">
-        <h2 className="text-xl font-semibold mb-4">Select My Item:</h2>
+        <h2 className="text-xl font-semibold mb-4">Sản phẩm của tôi:</h2>
         <div className="overflow-x-auto">
           <div style={{ maxHeight: "420px", overflowY: "scroll" }}>
             <table className="min-w-full bg-white border border-gray-300">
               <thead>
                 <tr>
-                  <th className="px-4 py-2 text-left border">Select</th>
-                  <th className="px-4 py-2 text-left border">Item Name</th>
-                  <th className="px-4 py-2 text-left border">Image</th>
-                  <th className="px-4 py-2 text-left border">Description</th>
-                  <th className="px-4 py-2 text-left border">Price</th>
-                  <th className="px-4 py-2 text-left border">Address</th>
+                  <th className="px-2 py-2 text-center border">Chọn</th>
+                  <th className="px-4 py-2 text-center border">Tên</th>
+                  <th className="px-4 py-2 text-center border">Ảnh</th>
+                  <th className="px-4 py-2 text-center border">Giá</th>
                 </tr>
               </thead>
               <tbody>
@@ -138,28 +136,25 @@ const ProductExchange: React.FC = () => {
                         disabled ? "opacity-50 pointer-events-none" : ""
                       }`}
                     >
-                      <td className="px-4 py-2 border">
+                      <td className="px-4 py-2 text-center border">
                         {!disabled && (
                           <input
                             type="radio"
+                            className="form-radio h-5 w-5 text-amber-600 focus:ring-amber-500"
                             checked={selectedItem?.item_id === item.item_id}
                             onChange={() => handleRadioChange(item)}
                           />
                         )}
                       </td>
                       <td className="px-4 py-2 border">{item.item_name}</td>
-                      <td className="px-4 py-2 border">
+                      <td className="flex justify-center px-4 py-2 border text-center">
                         <img
                           src={item.image_Items}
                           alt={item.item_name}
                           className="w-16 h-16 object-cover"
                         />
                       </td>
-                      <td className="px-4 py-2 border text-ellipsis overflow-hidden whitespace-nowrap">
-                        {item.description}
-                      </td>
-                      <td className="px-4 py-2 border">${item.price}</td>
-                      <td className="px-4 py-2 border">{item.address}</td>
+                      <td className="px-4 py-2 border">{item.price} VND</td>
                     </tr>
                   );
                 })}
