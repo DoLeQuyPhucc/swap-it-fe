@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
 
 interface PublicRouteProps {
     children: ReactNode;

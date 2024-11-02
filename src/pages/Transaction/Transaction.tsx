@@ -226,8 +226,8 @@ const Transactions = () => {
             </tr>
           </thead>
           <tbody>
-            {transactionsBuyer.length > 0 ? (
-              transactionsBuyer.map((transaction) => (
+            {transactionsSeller.length > 0 ? (
+              transactionsSeller.map((transaction) => (
                 <tr
                   key={transaction.transaction_id}
                   className="hover:bg-gray-50"

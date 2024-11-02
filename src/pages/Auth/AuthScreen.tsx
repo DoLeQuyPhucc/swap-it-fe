@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axiosInstance';
 import React, { useState } from 'react';
+import Logo from "../../assets/img/logo.png";
 
 interface FormErrors {
   name?: string;
@@ -80,10 +81,8 @@ const AuthScreens: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-amber-100 p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
         {/* Logo placeholder */}
-        <div className="w-16 h-16 bg-amber-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-          <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"/>
-          </svg>
+        <div className="w-16 h-16 bg-amber-200 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+          <img src={Logo} alt="Logo" />
         </div>
 
         {/* Header */}
