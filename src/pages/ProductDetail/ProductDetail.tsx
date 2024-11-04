@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Product } from '../../shared/productsInterface';
 import axiosInstance from '../../api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import ProductCarousel from '../../components/ProductCarousel/ProductCarousel';
 import { Spinner } from '../../components/SpinnerLoading/SpinnerLoading';
+import { Carousel } from 'react-responsive-carousel';
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -12,6 +13,9 @@ const ProductDetail: React.FC = () => {
   const navigate = useNavigate();
 
   const [products, setProducts] = useState<Product[]>([]);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  const userId = localStorage.getItem('userId');
 
   // Fetch products once when the component mounts
   useEffect(() => {
@@ -48,6 +52,13 @@ const ProductDetail: React.FC = () => {
   };
 
   const handleRequest = () => {
+
+    if (!userId) {
+      //Alert user to login
+      alert('Vui lòng đăng nhập để thực hiện chức năng này');
+      navigate('/auth');
+      return;
+    }
     console.log('Request sent');
     navigate(`/request-exchange/${productId}`);
   }
@@ -66,13 +77,30 @@ const ProductDetail: React.FC = () => {
       <div className="max-w-6xl mx-auto bg-white p-6 shadow-md rounded-md">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Product Image */}
-          <div className="w-full lg:w-1/2">
+          {/* <div className="w-full lg:w-1/2">
             <img
-              src={product.image_Items}
+              src={product.item_images[0]}
               alt={product.item_name}
               className="w-full h-96 object-cover rounded-md"
             />
-          </div>
+          </div> */}
+
+        <div className="w-full lg:w-1/2 rounded-lg">
+          <Carousel
+            showArrows={true}
+            showThumbs={false}
+            infiniteLoop={true}
+            showStatus={false}
+            stopOnHover={true}
+            className="w-full"
+          >
+            {product.item_images.map((image, index) => (
+              <div key={index} className="h-80 md:h-96 lg:h-[500px] rounded-lg">
+                <img src={image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover rounded-lg" />
+              </div>
+            ))}
+          </Carousel>
+        </div>
 
           {/* Product Details */}
           <div className="w-full lg:w-1/2">
@@ -103,7 +131,7 @@ const ProductDetail: React.FC = () => {
             {product?.address}
           </p>
 
-            <div className="text-4xl text-red-500 font-bold mb-6">${product.price}</div>
+            <div className="text-4xl text-red-500 font-bold mb-6">{product.price} SW</div>
 
             <div className="flex items-center mb-6">
               <span className="text-gray-700 mr-4">Số lượng:</span>

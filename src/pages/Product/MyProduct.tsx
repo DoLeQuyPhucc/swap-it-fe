@@ -128,7 +128,7 @@ const MyProduct: React.FC = () => {
                   onClick={() => !isSold && handleProductClick(product)} // Disable click if sold
                 >
                   <img
-                    src={product.image_Items}
+                    src={product.item_images[0]}
                     alt={product.item_name}
                     className="w-full h-32 object-cover"
                   />
@@ -142,7 +142,7 @@ const MyProduct: React.FC = () => {
                       />
                       <p className="text-gray-600">{product.user_name}</p>
                     </div>
-                    <p className="text-gray-600">${product.price}</p>
+                    <p className="text-red-500">{product.price} SW</p>
                     <p className="text-gray-500 text-sm flex items-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

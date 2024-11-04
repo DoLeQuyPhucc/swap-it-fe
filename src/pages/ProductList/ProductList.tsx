@@ -13,8 +13,6 @@ const ProductList: React.FC = () => {
   
   const userId = Number(localStorage.getItem('userId'));
 
-  console.log(userId)
-
   // Fetch products once when the component mounts
   useEffect(() => {
     fetchData();
@@ -97,20 +95,20 @@ const ProductList: React.FC = () => {
                   onClick={() => !isSold && handleProductClick(product)} // Disable click if sold
                 >
                   <img
-                    src={product.image_Items}
+                    src={product.item_images[0]}
                     alt={product.item_name}
                     className="w-full h-32 object-cover"
                   />
                   <div className="p-4">
                     <h3 className="font-semibold truncate">{product.item_name}</h3>
-                    <p className="text-gray-600">${product.price}</p>
+                    <p className="text-red-500 font-semibold">{product.price} SW</p>
                     <div className="flex items-center">
                       <img
                         src={product.image_user}
                         alt={`${product.user_name}'s profile`}
                         className="w-5 h-5 rounded-full mr-2"
                       />
-                      <p className="text-gray-600">{product.user_name}</p>
+                      <p className="text-gray-600 truncate my-2">{product.user_name}</p>
                     </div>
                     <p className="text-gray-500 text-sm flex items-center">
                       <svg

@@ -96,7 +96,7 @@ const ProductExchange: React.FC = () => {
         <h2 className="text-xl font-semibold mb-4">Sản phẩm muốn trao đổi:</h2>
         <div className="border p-5 rounded-lg shadow-md">
           <img
-            src={itemExchange?.image_Items}
+            src={itemExchange?.item_images[0]}
             alt={itemExchange?.item_name}
             className="w-full h-64 object-cover mb-4 rounded-lg"
           />
@@ -156,7 +156,7 @@ const ProductExchange: React.FC = () => {
                       <td className="px-4 py-2 border">{item.item_name}</td>
                       <td className="flex justify-center px-4 py-2 border text-center">
                         <img
-                          src={item.image_Items}
+                          src={item.item_images[0]}
                           alt={item.item_name}
                           className="w-16 h-16 object-cover"
                         />

@@ -11,6 +11,11 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const user = localStorage.getItem("user");
+
+  const NO_AVT = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH-bmqm7mCI2OBNsFo6PDo9QD3NPzXnpn9vA&s";
+  const user_image = user ? JSON.parse(user).image_user : NO_AVT;
+
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
@@ -54,6 +59,7 @@ const Navbar: React.FC = () => {
   };
 
   const logout = () => {
+    localStorage.removeItem("user");
     localStorage.removeItem("userId");  
     localStorage.removeItem("userRole");
     navigate("/auth");
@@ -90,9 +96,9 @@ const Navbar: React.FC = () => {
             className="p-2 border rounded-lg mr-4 focus:ring-2 focus:border-amber-300 focus:ring-amber-500 focus:outline-none dark:bg-gray-800"
             style={{width: '100%'}}
           />
-
-          {/* Avatar with Dropdown */}
-          <div className="relative">
+          {
+            user ? (
+              <div className="relative">
             <button
               onClick={handleDropdownToggle}
               type="button"
@@ -101,7 +107,7 @@ const Navbar: React.FC = () => {
               <span className="sr-only">Open user menu</span>
               <img
                 className="w-8 h-8 rounded-full"
-                src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?t=st=1730477642~exp=1730481242~hmac=299984a54341bf9def944d5f6e169501e5c206f083c7ba29f8780946145be263&w=740"
+                src={user_image}
                 alt="User avatar"
               />
             </button>
@@ -149,6 +155,15 @@ const Navbar: React.FC = () => {
               </div>
             )}
           </div>
+            ) : (
+              <Link to="/auth" className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700" style={{width: '156px'}}>
+                Đăng nhập
+              </Link>
+            )
+          }
+         
+          {/* Avatar with Dropdown */}
+          
         </div>
 
         {/* Navbar Links */}

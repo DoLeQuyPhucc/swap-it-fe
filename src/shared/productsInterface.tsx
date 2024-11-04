@@ -9,7 +9,7 @@ export interface Product {
     posted_date: string;
     item_status: string;
     user_name: string;
-    image_Items: string;
+    item_images: string[];
     address: string;
     image_user: string;
 }

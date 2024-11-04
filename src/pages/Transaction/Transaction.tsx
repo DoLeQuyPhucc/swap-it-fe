@@ -146,7 +146,7 @@ const Transactions = () => {
                   </td>
                   <td className="border border-gray-200 px-4 py-2">
                     <img
-                      src={transaction.buyer_item?.image_Items}
+                      src={transaction.buyer_item?.item_images[0]}
                       alt={transaction.buyer_item?.item_name}
                       className="w-12 h-12"
                     />
@@ -166,7 +166,7 @@ const Transactions = () => {
                   </td>
                   <td className="border border-gray-200 px-4 py-2">
                     <img
-                      src={transaction.seller_item?.image_Items}
+                      src={transaction.seller_item?.item_images[0]}
                       alt={transaction.seller_item?.item_name}
                       className="w-12 h-12"
                     />
@@ -246,7 +246,7 @@ const Transactions = () => {
                   </td>
                   <td className="border border-gray-200 px-4 py-2">
                     <img
-                      src={transaction.seller_item?.image_Items}
+                      src={transaction.seller_item?.item_images[0]}
                       alt={transaction.seller_item?.item_name}
                       className="w-12 h-12"
                     />
@@ -266,7 +266,7 @@ const Transactions = () => {
                   </td>
                   <td className="border border-gray-200 px-4 py-2">
                     <img
-                      src={transaction.buyer_item?.image_Items}
+                      src={transaction.buyer_item?.item_images[0]}
                       alt={transaction.buyer_item?.item_name}
                       className="w-12 h-12"
                     />

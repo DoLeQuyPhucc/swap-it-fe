@@ -44,13 +44,13 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({
               onClick={() => handleProductClick(product)}
             >
               <img
-                src={product.image_Items}
+                src={product.item_images[0]}
                 alt={product.item_name}
                 className="w-full h-32 object-cover"
               />
               <div className="p-4">
                 <h3 className="font-semibold truncate">{product.item_name}</h3>
-                <p className="text-gray-600">${product.price}</p>
+                <p className="text-red-500">{product.price} SW</p>
                 <div className="flex items-center">
                   <img
                     src={product.image_user}
