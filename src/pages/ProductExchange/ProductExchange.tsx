@@ -66,9 +66,11 @@ const ProductExchange: React.FC = () => {
       .post("/transactions", data)
       .then((response) => {
         console.log(response.data);
+        alert("Request exchange successfully!");
         navigate("/home");
       })
       .catch((error) => {
+        alert("Request exchange failed!");
         console.error(error);
       });
   };
