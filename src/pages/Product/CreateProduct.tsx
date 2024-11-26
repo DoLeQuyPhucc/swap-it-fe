@@ -1,22 +1,68 @@
-import React, { useState, useRef } from "react";
-import DefaultImage from "../../assets/img/upload-photo-here.png";
+"use client";
 
-const NewItemForm = () => {
-  const [formData, setFormData] = useState({
+import React, { useState, useRef } from "react";
+import NextImage from "next/image";
+import { toast, Toaster } from "sonner";
+import axiosInstance from "../../api/axiosInstance";
+
+// Default image can be stored in public folder
+const DEFAULT_IMAGE = "https://t4.ftcdn.net/jpg/04/81/13/43/360_F_481134373_0W4kg2yKeBRHNEklk4F9UXtGHdub3tYk.jpg";
+
+// Cloudinary upload function
+const uploadImageToCloudinary = async (file: File): Promise<string> => {
+  try {
+    const formData = new FormData();
+
+    const CLOUDINARY_UPLOAD_PRESET = "gift_system";
+    const CLOUDINARY_URL =
+      "https://api.cloudinary.com/v1_1/dt4ianp80/image/upload";
+
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+    const response = await fetch(CLOUDINARY_URL, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Upload failed: ${JSON.stringify(errorData)}`);
+    }
+
+    const responseData = await response.json();
+    return responseData.secure_url;
+  } catch (error) {
+    console.error("Cloudinary upload error:", error);
+    toast.error("Image upload failed");
+    throw error;
+  }
+};
+
+interface FormData {
+  item_name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  address: string;
+  image_url?: string;
+}
+
+export default function NewItemForm() {
+  const [formData, setFormData] = useState<FormData>({
     item_name: "",
     description: "",
-    price: "",
-    category: "",
+    price: 0,
     quantity: 1,
     address: "",
-    item_status: "Available",
   });
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imageURL, setImageURL] = useState(DefaultImage);
-  const fileUploadRef = useRef<HTMLInputElement>(null);
+  const userId = Number(localStorage.getItem("userId"));
 
-  const userId = Number(localStorage.getItem('userId'));
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>(DEFAULT_IMAGE);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (
     event: React.ChangeEvent<
@@ -24,17 +70,11 @@ const NewItemForm = () => {
     >
   ) => {
     const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleImageUpload = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    if (fileUploadRef.current) {
-      fileUploadRef.current.click();
-    }
+    setFormData((prev) => ({
+      ...prev,
+      // Convert string to number for price and quantity fields
+      [name]: name === "price" || name === "quantity" ? Number(value) : value,
+    }));
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,172 +82,174 @@ const NewItemForm = () => {
     if (files && files[0]) {
       const file = files[0];
       setSelectedFile(file);
-      setImageURL(URL.createObjectURL(file)); // Hiển thị ảnh tạm thời
+      setImagePreview(URL.createObjectURL(file));
     }
+  };
+
+  const handleImageUpload = (event: React.MouseEvent<HTMLImageElement>) => {
+    event.preventDefault();
+    fileInputRef.current?.click();
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formDataWithImage = new FormData(); // Sử dụng FormData để gửi cả file ảnh
-    formDataWithImage.append("item_name", formData.item_name);
-    formDataWithImage.append("description", formData.description);
-    formDataWithImage.append("price", formData.price);
-    formDataWithImage.append("category", formData.category);
-    formDataWithImage.append("quantity", formData.quantity.toString());
-    formDataWithImage.append("address", formData.address);
-    formDataWithImage.append("item_status", formData.item_status);
-    formDataWithImage.append(
-      "posted_date",
-      new Date().toISOString().split("T")[0]
-    ); // Ngày hiện tại
-    formDataWithImage.append("seller_id", userId.toString()); // seller_id giả định
-    if (selectedFile) {
-      formDataWithImage.append("image", selectedFile); // Thêm tệp ảnh vào FormData
-    }
+    // Start upload process
+    setIsUploading(true);
 
     try {
-      const response = await fetch("http://your-server-url.com/api/items", {
-        method: "POST",
-        body: formDataWithImage,
-      });
+      // Upload image to Cloudinary if a file is selected
+      let imageUrl = "";
+      if (selectedFile) {
+        imageUrl = await uploadImageToCloudinary(selectedFile);
 
-      if (response.ok) {
-        alert("Item created successfully");
-        // Reset form sau khi submit thành công
-        setFormData({
-          item_name: "",
-          description: "",
-          price: "",
-          category: "",
-          quantity: 1,
-          address: "",
+        // Prepare final form data
+        const finalFormData = {
+          ...formData,
+          image_Items: [imageUrl],
+          seller_id: userId,
+          category_id: 1,
           item_status: "Available",
-        });
-        setImageURL(DefaultImage);
-        setSelectedFile(null);
+        };
+
+        console.log("finalFormData:", finalFormData);
+
+        // Send data to your backend
+        const response = await axiosInstance.post("/items", finalFormData);
+
+        if (response.data.success) {
+          toast.success("Item created successfully");
+
+          // Reset form
+          setFormData({
+            item_name: "",
+            description: "",
+            price: 0,
+            quantity: 1,
+            address: "",
+          });
+          setImagePreview(DEFAULT_IMAGE);
+          setSelectedFile(null);
+        } else {
+          const errorData = await response.data.message.json();
+          toast.error(`Failed to create item: ${errorData.message}`);
+        }
       }
     } catch (error) {
       console.error("Error creating item:", error);
+      toast.error("Failed to create item");
+    } finally {
+      setIsUploading(false);
     }
   };
 
   return (
-    <div 
-    className="flex flex-col space-y-4 p-8 w-1/2 mx-auto">
-      
-      <h2 className="text-3xl font-bold text-center">Thêm sản phẩm mới</h2>
-    <form
-      onSubmit={handleSubmit}
-    >
-      {/* Các trường khác */}
-      <label>
-        Tên sản phẩm:
-        <input
-          type="text"
-          name="item_name"
-          value={formData.item_name}
-          onChange={handleInputChange}
-          required
-          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
-        />
-      </label>
+    <div className="container mx-auto px-4 py-8 max-w-xl">
+      <Toaster />
+      <h2 className="text-3xl font-bold text-center mb-6">Thêm sách mới</h2>
 
-      <label>
-        Mô tả:
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleInputChange}
-          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
-          rows={4}
-        />
-      </label>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Image Upload Section */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Hình ảnh
+          </label>
+          <div className="flex justify-center">
+            <div className="relative w-72 h-72" >
+              {/* Use img tag instead of NextImage to avoid import issues */}
+              <img
+                src={imagePreview}
+                alt="Product Preview"
+                className="absolute inset-0 w-full h-full object-cover rounded-lg border"
+                
+                onClick={handleImageUpload}
+              />
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/*"
+                className="hidden"
+              />
+            </div>
+          </div>
+        </div>
 
-      <label>
-        Giá:
-        <input
-          type="number"
-          name="price"
-          value={formData.price}
-          onChange={handleInputChange}
-          required
-          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
-        />
-      </label>
-
-      <label>
-        Phân loại:
-        <input
-          type="text"
-          name="category"
-          value={formData.category}
-          onChange={handleInputChange}
-          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
-        />
-      </label>
-
-      <label>
-        Số lượng:
-        <input
-          type="number"
-          name="quantity"
-          value={formData.quantity}
-          onChange={handleInputChange}
-          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
-        />
-      </label>
-
-      <label>
-        Địa chỉ:
-        <input
-          type="text"
-          name="address"
-          value={formData.address}
-          onChange={handleInputChange}
-          required
-          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
-        />
-      </label>
-      <label>
-        Hình ảnh:
-        <div className="mt-2 flex items-center justify-center rounded-lg" style={{border: '1px solid #ccc'}}>
-          <img
-            src={imageURL}
-            alt="Avatar"
-            className="h-72 w-72 object-cover"
-          />
+        {/* Rest of the form remains the same */}
+        <div className="grid grid-cols-1 gap-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Tên:
+          </label>
           <input
-            type="file"
-            ref={fileUploadRef}
-            onChange={handleFileChange}
-            hidden
+            type="text"
+            name="item_name"
+            value={formData.item_name}
+            onChange={handleInputChange}
+            placeholder="Tên"
+            required
+            className="w-full p-2 border rounded-lg"
+          />
+
+<label className="block text-sm font-medium text-gray-700 mb-2">
+            Mô tả
+          </label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
+            placeholder="Mô tả"
+            rows={4}
+            className="w-full p-2 border rounded-lg"
+          />
+
+<label className="block text-sm font-medium text-gray-700 mb-2">
+            Điểm:
+          </label>
+          <input
+            type="number"
+            name="price"
+            value={formData.price}
+            onChange={handleInputChange}
+            placeholder="Giá"
+            required
+            className="w-full p-2 border rounded-lg"
+          />
+
+<label className="block text-sm font-medium text-gray-700 mb-2">
+            Số lượng
+          </label>
+          <input
+            type="number"
+            name="quantity"
+            value={formData.quantity}
+            onChange={handleInputChange}
+            placeholder="Số lượng"
+            className="w-full p-2 border rounded-lg"
+          />
+
+<label className="block text-sm font-medium text-gray-700 mb-2">
+            Địa chỉ
+          </label>
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleInputChange}
+            placeholder="Địa chỉ"
+            required
+            className="w-full p-2 border rounded-lg"
           />
         </div>
-      </label>
-      <label>
-        Item Status:
-        <select
-          name="item_status"
-          value={formData.item_status}
-          onChange={handleInputChange}
-          className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg"
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          disabled={isUploading}
+          className="w-full p-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 disabled:bg-amber-300"
         >
-          <option value="Available">Available</option>
-          <option value="Sold">Sold</option>
-        </select>
-      </label>
-
-      <button
-        type="submit"
-        className="w-full p-2 mt-2 mb-4 bg-amber-500 hover:bg-amber-700 text-white rounded-lg"
-      >
-       Thêm sản phẩm
-      </button>
-    </form>
-
+          {isUploading ? "Đang tiến hành..." : "Thêm sản phẩm"}
+        </button>
+      </form>
     </div>
   );
-};
-
-export default NewItemForm;
+}

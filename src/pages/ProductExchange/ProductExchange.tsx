@@ -104,7 +104,7 @@ const ProductExchange: React.FC = () => {
           />
           <h3 className="text-lg font-bold">{itemExchange?.item_name}</h3>
           <p>{itemExchange?.description}</p>
-          <p className="mt-2 text-gray-600">Giá: {itemExchange?.price} VND</p>
+          <p className="mt-2 text-gray-600">Giá: {itemExchange?.price} SW</p>
         </div>
       </div>
 
@@ -163,7 +163,7 @@ const ProductExchange: React.FC = () => {
                           className="w-16 h-16 object-cover"
                         />
                       </td>
-                      <td className="px-4 py-2 border">{item.price} VND</td>
+                      <td className="px-4 py-2 border">{item.price} SW</td>
                     </tr>
                   );
                 })}
