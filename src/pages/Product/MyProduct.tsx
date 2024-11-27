@@ -133,14 +133,14 @@ const MyProduct: React.FC = () => {
                     className="w-full h-32 object-cover"
                   />
                   <div className="p-4">
-                    <h3 className="font-semibold">{product.item_name}</h3>
+                    <h3 className="font-semibold truncate">{product.item_name}</h3>
                     <div className="flex items-center">
                       <img
                         src={product.image_user}
                         alt={`${product.user_name}'s profile`}
                         className="w-5 h-5 rounded-full mr-2"
                       />
-                      <p className="text-gray-600">{product.user_name}</p>
+                      <p className="text-gray-600 truncate my-2">{product.user_name}</p>
                     </div>
                     <p className="text-red-500">{product.price} SW</p>
                     <p className="text-gray-500 text-sm flex items-center">
@@ -161,7 +161,7 @@ const MyProduct: React.FC = () => {
                     {/* if is sold, render the p tag "Sold" */}
                     {/* else, render the button to buy the product */}
                     {isSold ? (
-                      <p className="text-red-500 text-bold text-sm">Đã bán</p>
+                      <p className="text-red-500 text-bold text-sm">Đã trao đổi</p>
                     ) : (<></>)}
                   </div>
                 </div>

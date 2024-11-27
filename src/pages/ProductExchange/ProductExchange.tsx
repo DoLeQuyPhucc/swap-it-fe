@@ -17,33 +17,62 @@ const ProductExchange: React.FC = () => {
   const navigate = useNavigate();
   const userId = Number(localStorage.getItem('userId'));
 
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    const fetchData = () => {
-      axiosInstance
-        .get(`/items/exchange/${userId}&${productId}`)
-        .then((response) => {
-          setItemsBySellerId(response.data.data.itemsBySellerId);
-          setItemExchange(response.data.data.itemExchange);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await axiosInstance.get(`/items/exchange/${userId}&${productId}`);
+        setItemsBySellerId(response.data.data.itemsBySellerId);
+        setItemExchange(response.data.data.itemExchange);
+        
+        if (response.data.data.itemsBySellerId.length === 0) {
+          setError("No items available for exchange.");
+        }
+      } catch (error) {
+        console.error(error);
+        setError("Failed to load exchange items. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData();
-  }, [productId]);
+  }, [productId, userId]);
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Spinner size="lg" color="primary" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-6 text-center">
+        <p className="text-red-500 text-xl mb-4">{error}</p>
+        <button 
+          onClick={() => window.location.reload()} 
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
 
   if (!itemExchange) {
     return (
-      <div  className="py-10 px-6 flex items-center justify-center text-center">
-        <Spinner size="lg" color="primary" />
+      <div className="flex flex-col items-center justify-center min-h-screen p-6 text-center">
+        <p className="text-gray-500 text-xl">No exchange item available</p>
       </div>
-    )
+    );
   }
 
 
   const isItemDisabled = (itemPrice: string, exchangePrice: string) => {
     const priceDiff = Math.abs(parseFloat(itemPrice) - parseFloat(exchangePrice));
-    return priceDiff > 20;
+    return null;
   };
 
   const handleRadioChange = (item: Product) => {
@@ -104,7 +133,7 @@ const ProductExchange: React.FC = () => {
           />
           <h3 className="text-lg font-bold">{itemExchange?.item_name}</h3>
           <p>{itemExchange?.description}</p>
-          <p className="mt-2 text-gray-600">Giá: {itemExchange?.price} SW</p>
+          <p className="mt-4 text-xl text-red-500 font-bold mb-6">{itemExchange?.price} SW</p>
         </div>
       </div>
 
@@ -146,13 +175,15 @@ const ProductExchange: React.FC = () => {
                       }`}
                     >
                       <td className="px-4 py-2 text-center border">
-                        {!disabled && (
+                        {!disabled ? (
                           <input
                             type="radio"
                             className="form-radio h-5 w-5 text-amber-600 focus:ring-amber-500"
                             checked={selectedItem?.item_id === item.item_id}
                             onChange={() => handleRadioChange(item)}
                           />
+                        ): (
+                          <p>Đã đổi</p>
                         )}
                       </td>
                       <td className="px-4 py-2 border">{item.item_name}</td>

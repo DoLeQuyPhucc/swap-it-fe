@@ -113,8 +113,6 @@ const ProductDetail: React.FC = () => {
               />
               <p className="text-gray-700 font-semibold">{product.user_name}</p>
             </div>
-            <p className="text-gray-700 mb-2">Loại: {product.category_id}</p>
-            <p className="text-gray-700 mb-2">Trạng thái: {product.item_status}</p>
             <p className="mt-2 text-gray-800 text-sm flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -143,15 +141,17 @@ const ProductDetail: React.FC = () => {
                 defaultValue="1"
               />
             </div>
+            {product.seller_id !== Number(userId) && (
+              <div className="flex gap-4">
+                <button className="bg-orange-500 hover:bg-orange-600 text-white py-3 px-8 rounded-md font-semibold">
+                  Liên hệ
+                </button>
+                <button className="bg-yellow-400 hover:bg-yellow-500 text-white py-3 px-8 rounded-md font-semibold" onClick={handleRequest}>
+                  Yêu cầu trao đổi
+                </button>
+              </div>
 
-            <div className="flex gap-4">
-              <button className="bg-orange-500 hover:bg-orange-600 text-white py-3 px-8 rounded-md font-semibold">
-                Liên hệ
-              </button>
-              <button className="bg-yellow-400 hover:bg-yellow-500 text-white py-3 px-8 rounded-md font-semibold" onClick={handleRequest}>
-                Yêu cầu trao đổi
-              </button>
-            </div>
+            )}
           </div>
         </div>
 

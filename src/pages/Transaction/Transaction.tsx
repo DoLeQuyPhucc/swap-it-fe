@@ -64,7 +64,7 @@ const Transactions = () => {
       .put(`/transactions/accept/${transactionId}`)
       .then((response) => {
         console.log("Transaction accepted:", response.data);
-
+        setTransactionUpdated(!transactionUpdated);
         // Cập nhật trạng thái cho transactionsBuyer
         setTransactionsBuyer((prevTransactions) =>
           prevTransactions.map((transaction) => {

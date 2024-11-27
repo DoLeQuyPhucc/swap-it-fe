@@ -73,6 +73,7 @@ const AuthScreens: React.FC = () => {
       const response = await axiosInstance.post('/auth', { email });
       localStorage.setItem('user', JSON.stringify(response.data.user));
       localStorage.setItem('userId', response.data.user.user_id);
+      localStorage.setItem('userImage', response.data.image_user);
       localStorage.setItem('userRole', 'user');
       navigate("/home");
     } catch (error) {

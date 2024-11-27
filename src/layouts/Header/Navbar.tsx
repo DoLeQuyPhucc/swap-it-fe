@@ -6,6 +6,9 @@ import Logo from "../../assets/img/logo.png";
 import { ArrowUpToLine } from "lucide-react";
 
 const Navbar: React.FC = () => {
+  const userId = localStorage.getItem("userId");
+  const userImage = localStorage.getItem("userImage");
+
   const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 

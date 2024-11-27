@@ -5,81 +5,162 @@ import useSearchStore from "src/shared/store/SearchStore";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "../../components/SpinnerLoading/SpinnerLoading";
+import { motion, AnimatePresence } from "framer-motion";
+
+const ProductListSkeleton: React.FC = () => {
+  return (
+    <div className="bg-white py-10">
+      <div className="max-w-screen-lg mx-auto px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {[...Array(10)].map((_, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0.6 }}
+              animate={{ opacity: 1 }}
+              transition={{ 
+                duration: 0.8, 
+                repeat: Infinity, 
+                repeatType: "reverse" 
+              }}
+              className="border rounded-lg overflow-hidden shadow-lg animate-pulse"
+            >
+              <div className="w-full h-32 bg-gray-300"></div>
+              <div className="p-4 space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-5 h-5 bg-gray-300 rounded-full"></div>
+                  <div className="h-3 bg-gray-200 rounded w-1/3"></div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ProductList: React.FC = () => {
   const searchQuery = useSearchStore((state) => state.searchQuery);
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   const userId = Number(localStorage.getItem('userId'));
+  const navigate = useNavigate();
 
-  // Fetch products once when the component mounts
+  // Enhanced fetch data with more robust error handling
+  const fetchData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      
+      const response = await axiosInstance.get("/items/");
+      const fetchedProducts = response.data.data;
+      
+      setProducts(fetchedProducts);
+      setFilteredProducts(
+        fetchedProducts.filter((product: Product) => product.seller_id !== userId).filter((product: Product) => product.item_status !== "Sold")
+      );
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+      setError("Failed to load products. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [userId]);
+
+  // Initial data fetch
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
-  const fetchData = () => {
-    axiosInstance
-      .get("/items/")
-      .then((response) => {
-        setProducts(response.data.data);
-        setFilteredProducts(response.data.data.filter((product: Product) => product.seller_id !== userId)); // Filter initially
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  // Debounce the search filter to avoid excessive filtering while typing
+  // Debounced product filtering
   const filterProductList = useCallback(
     debounce((query: string) => {
-      
-    if (!products) {
-      return
-    }
-      if (!query) {
-        setFilteredProducts(products.filter(product => product.seller_id !== userId)); // Reset to filtered list excluding seller_id === 1
-      } else {
-        const productsFiltered = products.filter((product) =>
-          product.item_name.toLowerCase().includes(query.toLowerCase()) && product.seller_id !== userId // Exclude seller_id === 1
-        );
-        setFilteredProducts(productsFiltered);
-      }
-    }, 300),
-    [products]
-  ); // Update when products change
+      if (!products.length) return;
 
-  // Trigger filtering when searchQuery changes
+      const filtered = query 
+        ? products.filter(
+            (product) => 
+              product.item_name.toLowerCase().includes(query.toLowerCase()) && 
+              product.seller_id !== userId
+          ).filter((product: Product) => product.item_status !== "Sold")
+        : products.filter(product => product.seller_id !== userId).filter((product: Product) => product.item_status !== "Sold");
+      
+      setFilteredProducts(filtered);
+    }, 300),
+    [products, userId]
+  );
+
+  // Trigger filtering when search query changes
   useEffect(() => {
     filterProductList(searchQuery);
   }, [searchQuery, filterProductList]);
-  const navigate = useNavigate();
 
   const handleProductClick = (product: Product) => {
     navigate(`/product-detail/${product.item_id}`);
   };
 
-  if (!products) {
+  // Error state rendering
+  if (error) {
     return (
-      <div  className="py-10 px-6 flex items-center justify-center text-center">
-        <Spinner size="lg" color="primary" />
+      <div className="flex flex-col items-center justify-center min-h-screen p-6 text-center">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">Oops! </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
+        <button 
+          onClick={fetchData}
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Try Again
+        </button>
       </div>
-    )
+    );
   }
 
+  // Loading state rendering
+  if (isLoading) {
+    return <ProductListSkeleton />;
+  }
+
+  // Empty state rendering
   if (filteredProducts.length === 0) {
     return (
-      <div className="py-16" style={{display: 'flex', flexDirection:'column', alignContent: 'center', justifyContent: 'center'}}>
-        <div className="text-3xl font-bold text-center mb-8">Không tìm thấy sản phẩm phù hợp</div>
-        <img style={{width: '400px', margin: '0 auto'}} src="https://mitienda.ucol.mx/assets/img/productos/product-not-found.png" alt="product" />
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <h2 className="text-3xl font-bold text-gray-600 mb-4">
+            No Products Found
+          </h2>
+          <img 
+            src="https://mitienda.ucol.mx/assets/img/productos/product-not-found.png" 
+            alt="No products" 
+            className="max-w-xs mx-auto mb-4"
+          />
+          <p className="text-gray-500">Try adjusting your search or filters</p>
+        </motion.div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="bg-white py-10">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white py-10"
+    >
       <div className="max-w-screen-lg mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <AnimatePresence>
           {filteredProducts
             .sort(
               (a, b) =>
@@ -89,6 +170,17 @@ const ProductList: React.FC = () => {
             .map((product) => {
               const isSold = product.item_status === "Sold"; // Check if the product is sold
               return (
+                <motion.div
+                key={product.item_id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+                className={`border rounded-lg overflow-hidden shadow-lg transition-all duration-300 ${
+                  isSold ? "opacity-50 pointer-events-none" : "hover:shadow-xl"
+                }`}
+                onClick={() => !isSold && handleProductClick(product)}
+              >
                 <div
                   key={product.item_id}
                   className={`border rounded-lg overflow-hidden shadow-lg ${isSold ? "opacity-50 pointer-events-none" : ""}`} 
@@ -127,11 +219,15 @@ const ProductList: React.FC = () => {
                     </p>
                   </div>
                 </div>
+                </motion.div>
               );
             })}
+
+          
+</AnimatePresence>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -38,19 +38,19 @@ const PackagesScreen = () => {
   const packages = [
     {
       title: 'Gói Cơ Bản',
-      price: 'Free',
+      price: 'Miễn Phí',
       features: ['Đăng tối đa 3 bài', 'Hiển thị trong 7 ngày', 'Không hỗ trợ ưu tiên'],
-      buttonText: 'Đăng ký',
+      buttonText: 'Đang áp dụng',
     },
     {
       title: 'Gói Tiêu Chuẩn',
-      price: '49000',
+      price: '69000',
       features: ['Đăng tối đa 10 bài', 'Hiển thị trong 30 ngày', 'Ưu tiên trung bình'],
       buttonText: 'Đăng ký',
     },
     {
       title: 'Gói Cao Cấp',
-      price: '99000',
+      price: '179000',
       features: ['Đăng không giới hạn', 'Hiển thị trong 60 ngày', 'Ưu tiên cao nhất'],
       buttonText: 'Đăng ký',
     },
@@ -77,7 +77,7 @@ const PackagesScreen = () => {
           <PackageCard 
             key={index}
             {...pkg}
-            onSelect={() => pkg.price !== 'Free' && handlePayment(pkg)}
+            onSelect={() => pkg.price !== 'Miễn Phí' && handlePayment(pkg)}
           />
         ))}
       </div>
