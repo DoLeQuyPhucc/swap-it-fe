@@ -52,6 +52,8 @@ const ProductDetail: React.FC = () => {
   };
 
   const handleRequest = () => {
+    
+  const userId = localStorage.getItem('userId');
 
     if (!userId) {
       //Alert user to login
@@ -59,7 +61,6 @@ const ProductDetail: React.FC = () => {
       navigate('/auth');
       return;
     }
-    console.log('Request sent');
     navigate(`/request-exchange/${productId}`);
   }
 
