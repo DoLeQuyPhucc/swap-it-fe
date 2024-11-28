@@ -16,8 +16,8 @@ const AppRoutes = ({ isAuthenticated, userRole }: AppRoutesProps) => (
         <Routes>
             <Route path="/auth" element={<AuthScreens />} />
 
-            {/* <Route path="*" element={<Navigate to="/home" replace />} />
-            <Route path="/" element={<Navigate to="/home" replace />} /> */}
+            <Route path="*" element={<Navigate to="/home" replace />} />
+            <Route path="/" element={<Navigate to="/home" replace />} />
             
             {/* public routes */}
             <Route element={<UserLayout />}>
