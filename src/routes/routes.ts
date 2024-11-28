@@ -26,6 +26,26 @@ export const publicRoutes = [
     path: "/product-detail/:productId",
     component: ProductDetail,
   },
+  {
+    path: "/transactions",
+    component: Transaction,
+  },
+  {
+    path: "/request-exchange/:productId",
+    component: ProductExchange,
+  },
+  {
+    path: "/products/myProduct",
+    component: MyProduct,
+  },
+  {
+    path: "/products/create",
+    component: CreateProduct,
+  },
+  {
+    path: "/package",
+    component: PackagesScreen,
+  },
 ];
 
 export const privateRoutes = [
@@ -48,6 +68,5 @@ export const privateRoutes = [
   {
     path: "/package",
     component: PackagesScreen,
-  }
+  },
 ];
-
